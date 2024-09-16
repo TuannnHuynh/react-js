@@ -1,9 +1,14 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { validateForm } from "../services/validation";
-import { postCreateUser, putUpdateUser } from "../services/UserService";
+import { validateForm } from "../../services/validation";
+import "./ModalUser.scss";
+import {
+  postCreateUser,
+  putUpdateUser,
+  deleteUser,
+} from "../../services/UserService";
 
 const ModalUser = ({
   handleAddUser,
@@ -11,7 +16,9 @@ const ModalUser = ({
   show,
   action,
   dataEdit,
+  dataDelete,
   handleEditUserFromModal,
+  handleDeleteUserFromModal,
 }) => {
   const initForm = {
     touched: {
@@ -53,6 +60,16 @@ const ModalUser = ({
       toast.error("An error occurred while updating.");
     }
   };
+  const handleDeleteUser = async () => {
+    let res = await deleteUser(dataDelete.id);
+    if (res && +res.statusCode === 204) {
+      toast.success("Delete user succeed!");
+      handleClose();
+      handleDeleteUserFromModal(dataDelete);
+    } else {
+      toast.error("Error delete user");
+    }
+  };
   useEffect(() => {
     if (show) {
       setName(dataEdit.first_name);
@@ -77,45 +94,60 @@ const ModalUser = ({
   const isFormValid = !errors.name && !errors.job && name && job;
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
         <Modal.Header closeButton>
           {action === "add" ? (
             <Modal.Title>Add new user</Modal.Title>
-          ) : (
+          ) : action === "edit" ? (
             <Modal.Title>Edit user</Modal.Title>
+          ) : (
+            <Modal.Title>Delete user</Modal.Title>
           )}
         </Modal.Header>
         <Modal.Body>
-          <form>
-            <div className="mb-3">
-              <label className="form-label">Name</label>
-              <input
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                type="text"
-                name="name"
-                className="form-control"
-                onBlur={onBlur}
-              />
-              {errors.name && (
-                <small className="d-block text-danger">{errors.name}</small>
-              )}
+          {action === "delete" ? (
+            <div>
+              This action can't be undone! Do want to delete this user?
+              <br />
+              <b>email = {dataDelete.email}</b>
             </div>
-            <div className="mb-3">
-              <label className="form-label">Job</label>
-              <input
-                onChange={(e) => setJob(e.target.value)}
-                type="text"
-                value={job}
-                name="job"
-                className="form-control"
-                onBlur={onBlur}
-              />
-              {errors.job && (
-                <small className="d-block text-danger">{errors.job}</small>
-              )}
-            </div>
-          </form>
+          ) : (
+            <form>
+              <div className="mb-3">
+                <label className="form-label">Name</label>
+                <input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  type="text"
+                  name="name"
+                  className="form-control"
+                  onBlur={onBlur}
+                />
+                {errors.name && (
+                  <small className="d-block text-danger">{errors.name}</small>
+                )}
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Job</label>
+                <input
+                  onChange={(e) => setJob(e.target.value)}
+                  type="text"
+                  value={job}
+                  name="job"
+                  className="form-control"
+                  onBlur={onBlur}
+                />
+                {errors.job && (
+                  <small className="d-block text-danger">{errors.job}</small>
+                )}
+              </div>
+            </form>
+          )}
         </Modal.Body>
         <Modal.Footer>
           {action === "add" ? (
@@ -131,7 +163,7 @@ const ModalUser = ({
                 Save Changes
               </Button>
             </>
-          ) : (
+          ) : action === "edit" ? (
             <>
               <Button variant="secondary" onClick={handleClose}>
                 Close
@@ -141,6 +173,15 @@ const ModalUser = ({
                 variant="primary"
                 onClick={() => handleEditUser()}
               >
+                Confirm
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+              <Button variant="primary" onClick={() => handleDeleteUser()}>
                 Confirm
               </Button>
             </>
