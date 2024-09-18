@@ -39,7 +39,7 @@ const Login = () => {
     setIsLoading(false);
   };
   return (
-    <section className="login col-11 col-sm-4 col-md-6 col-lg-4 col-xl-3">
+    <section className="login col-11 col-sm-4 col-md-6 col-lg-5 col-xl-4">
       <form>
         <h2>Log in</h2>
         <div className="input-user">

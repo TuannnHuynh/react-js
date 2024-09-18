@@ -1,6 +1,6 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { useEffect, useState } from "react";
+import { act, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { validateForm } from "../../services/validation";
 import "./ModalUser.scss";
@@ -75,7 +75,7 @@ const ModalUser = ({
       setName(dataEdit.first_name);
       setJob(dataEdit.job || "");
     }
-  }, [dataEdit]);
+  }, [dataEdit, show]);
   useEffect(() => {
     if (!show || action === "add") {
       setFormData(initForm);

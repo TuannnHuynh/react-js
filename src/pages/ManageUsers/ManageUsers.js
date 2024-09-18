@@ -10,6 +10,7 @@ import { debounce } from "lodash";
 import ModalUser from "../../components/ModelUser/ModalUser";
 import { fetchAllUser } from "../../services/UserService";
 import { toast } from "react-toastify";
+import "./ManageUsers.scss";
 
 const TableUsers = () => {
   const [listUser, setListUser] = useState([]);
@@ -151,17 +152,20 @@ const TableUsers = () => {
             <b>LIST USER:</b>
           </span>
         </div>
-        <div className="mb-4 d-flex justify-content-between align-items-center">
-          <div className="col-9">
+        <div className="mb-4 d-md-flex justify-content-between align-items-center">
+          <div className="col-12 col-md-6">
             <input
-              className="d-block border border-2 fs-6 col-4 px-2 py-1 rounded-2"
+              className="d-block border border-2 fs-6 mb-2 mb-md-0 col-12 col-md-11 col-lg-8 px-2 py-1 rounded-2"
               placeholder="Enter your search email..."
               onChange={(e) => handleSearch(e)}
             />
           </div>
-          <div className="btn-groups col-3 d-flex justify-content-between">
-            <div>
-              <label className="btn btn-warning" htmlFor="import">
+          <div className="btn-groups col-12 col-md-6 d-flex justify-content-between justify-content-lg-end">
+            <div className="col-sm-4 col-lg-3">
+              <label
+                className="btn btn-warning px-3 px-sm-0 col-12"
+                htmlFor="import"
+              >
                 <i className="fa-solid fa-file-export me-1"></i>Import
               </label>
               <input
@@ -177,7 +181,7 @@ const TableUsers = () => {
               asyncOnClick={true}
               onClick={getDataExport}
               filename={"users.csv"}
-              className="btn btn-primary"
+              className="btn btn-primary mx-1 mx-sm-0 col-sm-3 mx-lg-3"
             >
               <i className="fa-solid fa-file-arrow-down me-1"></i>Export
             </CSVLink>
@@ -187,86 +191,89 @@ const TableUsers = () => {
                 setAction("add");
                 setIsShowModal(true);
               }}
-              className="btn btn-success"
+              className="btn btn-success px-3 px-sm-0 col-sm-4 col-lg-3"
             >
               <i className="fa-solid fa-circle-plus me-1"></i>Add new
             </button>
           </div>
         </div>
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th className="d-flex justify-content-between">
-                <span>ID</span>
-                <div>
-                  <span role="button" style={{ marginRight: "2px" }}>
-                    <i
-                      className="fa-solid fa-arrow-up-long"
-                      onClick={() => handleSort("asc", "id")}
-                    ></i>
-                  </span>
-                  <span role="button">
-                    <i
-                      className="fa-solid fa-arrow-down-long"
-                      onClick={() => handleSort("desc", "id")}
-                    ></i>
-                  </span>
-                </div>
-              </th>
-              <th>Email</th>
-              <th className="d-flex justify-content-between">
-                <span>First Name</span>
-                <div>
-                  <span role="button" style={{ marginRight: "2px" }}>
-                    <i
-                      className="fa-solid fa-arrow-up-long"
-                      onClick={() => handleSort("asc", "first_name")}
-                    ></i>
-                  </span>
-                  <span role="button">
-                    <i
-                      className="fa-solid fa-arrow-down-long"
-                      onClick={() => handleSort("desc", "first_name")}
-                    ></i>
-                  </span>
-                </div>
-              </th>
-              <th>Last Name</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {listUser &&
-              listUser.length > 0 &&
-              listUser.map((val, idx) => {
-                return (
-                  <tr key={`users-${idx}`}>
-                    <td>{val.id}</td>
-                    <td>{val.email}</td>
-                    <td>{val.first_name}</td>
-                    <td>{val.last_name}</td>
-                    <td style={{ width: "15%" }}>
-                      <button
-                        onClick={() => {
-                          handleEditUser(val);
-                        }}
-                        className="btn btn-warning me-2"
-                      >
-                        <i className="fa-solid fa-pen-to-square me-1"></i>Edit
-                      </button>
-                      <button
-                        onClick={() => handleDeleteUser(val)}
-                        className="btn btn-danger"
-                      >
-                        <i className="fa-solid fa-trash-can me-1"></i>Delete
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </Table>
+        <div className="table">
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th className="d-flex justify-content-between">
+                  <span className="me-1 me-md-0">ID</span>
+                  <div className="d-flex d-md-block">
+                    <span role="button" style={{ marginRight: "2px" }}>
+                      <i
+                        className="fa-solid fa-arrow-up-long"
+                        onClick={() => handleSort("asc", "id")}
+                      ></i>
+                    </span>
+                    <span role="button">
+                      <i
+                        className="fa-solid fa-arrow-down-long"
+                        onClick={() => handleSort("desc", "id")}
+                      ></i>
+                    </span>
+                  </div>
+                </th>
+                <th>Email</th>
+                <th className="d-flex justify-content-between">
+                  <span>First Name</span>
+                  <div className="d-flex d-md-block">
+                    <span role="button" style={{ marginRight: "2px" }}>
+                      <i
+                        className="fa-solid fa-arrow-up-long"
+                        onClick={() => handleSort("asc", "first_name")}
+                      ></i>
+                    </span>
+                    <span role="button">
+                      <i
+                        className="fa-solid fa-arrow-down-long"
+                        onClick={() => handleSort("desc", "first_name")}
+                      ></i>
+                    </span>
+                  </div>
+                </th>
+                <th>Last Name</th>
+                <th className="col-lg-2">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {listUser &&
+                listUser.length > 0 &&
+                listUser.map((val, idx) => {
+                  return (
+                    <tr key={`users-${idx}`}>
+                      <td>{val.id}</td>
+                      <td>{val.email}</td>
+                      <td>{val.first_name}</td>
+                      <td>{val.last_name}</td>
+                      <td className="d-md-flex align-center justify-content-center">
+                        <button
+                          onClick={() => {
+                            handleEditUser(val);
+                          }}
+                          className="btn btn-warning mb-1 mb-md-0 me-md-2"
+                        >
+                          <i className="fa-solid fa-pen-to-square me-1"></i>Edit
+                        </button>
+                        <button
+                          onClick={() => handleDeleteUser(val)}
+                          className="btn btn-danger"
+                        >
+                          <i className="fa-solid fa-trash-can me-1"></i>Delete
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </Table>
+        </div>
         <ReactPaginate
+          className="pagination"
           breakLabel="..."
           nextLabel="next >"
           onPageChange={handlePageClick}

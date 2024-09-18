@@ -24,16 +24,16 @@ const Header = () => {
     <>
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container>
-          <Navbar.Brand href="/">
+          <NavLink className="nav-link me-3 " to="/">
             <img
-              width="37"
-              height="37"
+              width="35"
+              height="35"
               className="d-inline-block align-top"
               src={logoReact}
               alt="Logo React"
             />
             <span className="fs-4 fw-semibold">React</span>
-          </Navbar.Brand>
+          </NavLink>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             {((user && user.auth) ||
@@ -41,10 +41,13 @@ const Header = () => {
               window.location.pathname === "/ManageUsers") && (
               <>
                 <Nav className="me-auto">
-                  <NavLink className="nav-link fw-medium" to="/">
+                  <NavLink className="nav-link fw-medium mt-1" to="/">
                     Home
                   </NavLink>
-                  <NavLink className="nav-link fw-medium" to="/ManageUsers">
+                  <NavLink
+                    className="nav-link fw-medium mt-1"
+                    to="/ManageUsers"
+                  >
                     Manage Users
                   </NavLink>
                 </Nav>
