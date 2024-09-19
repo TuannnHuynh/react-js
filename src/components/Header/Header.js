@@ -1,25 +1,28 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { NavLink, useNavigate } from "react-router-dom";
-import logoReact from "../../assets/images/logo-react.png";
 import Container from "react-bootstrap/esm/Container";
+import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { UserContext } from "../../context/UserContext";
+import logoReact from "../../assets/images/logo-react.png";
+import { handleLogoutRedux } from "../../redux/actions/userActions";
 
 const Header = () => {
-  const { logout, user } = useContext(UserContext);
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user.account);
+  const dispatch = useDispatch();
   const handleLogout = () => {
-    if (localStorage.getItem("token") !== null) {
-      logout();
-      navigate("/");
-      toast.success("Log out success!");
-      return;
-    }
-    toast.error("Logout failed");
+    dispatch(handleLogoutRedux());
   };
+  useEffect(() => {
+    if (user && user.auth === false && window.location.pathname !== "/Login") {
+      navigate("/");
+      toast.success("Logout Successfully!");
+    }
+  }, [user]);
+
   return (
     <>
       <Navbar expand="lg" className="bg-body-tertiary">

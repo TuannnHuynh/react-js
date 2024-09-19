@@ -21,7 +21,12 @@ const Home = () => {
                 <div className="fw-semibold">
                   Login, use Axios to send a request and store to local storage.
                 </div>
+                <ul>
+                  <li>Use hook useContext</li>
+                  <li>Integrate Redux and remove useContext</li>
+                </ul>
               </div>
+              <span className="badge text-bg-primary rounded-pill">2</span>
             </li>
             <li className="list-group-item d-flex justify-content-between align-items-start">
               <div className="ms-2 me-auto">
@@ -42,9 +47,10 @@ const Home = () => {
                   <li>Paginate list user</li>
                   <li>Filter by id</li>
                   <li>Sort by first name</li>
+                  <li>Search by email</li>
                 </ul>
               </div>
-              <span className="badge text-bg-primary rounded-pill">3</span>
+              <span className="badge text-bg-primary rounded-pill">4</span>
             </li>
             <li className="list-group-item d-flex justify-content-between align-items-start">
               <div className="ms-2 me-auto">
@@ -55,6 +61,17 @@ const Home = () => {
                 </ul>
               </div>
               <span className="badge text-bg-primary rounded-pill">2</span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-start">
+              <div className="ms-2 me-auto">
+                <div className="fw-semibold">
+                  Authentication for Manage Users Page
+                </div>
+                <ul>
+                  <li>Require user login to access the Manage Users page</li>
+                </ul>
+              </div>
+              <span className="badge text-bg-primary rounded-pill">1</span>
             </li>
           </ol>
         </div>
